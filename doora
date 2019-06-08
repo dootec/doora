@@ -1,0 +1,54 @@
+#!/bin/bash
+welcome () {
+	if [[ $1 == "--help" ]]; then
+		printf "Usage1: sudo ./doora <jdk-filename.tar.gz>\nUsage2: sudo doora <jdk-filename.tar.gz> -y\n\n"
+		exit
+	fi
+	clear
+	printf "\n***** Oracle JDK Installer | doora *****\n\n"
+	printf "Master: https://github.com/dootec\n"
+	printf "Version: 1.0.0\n\n"
+	printf "Linux use this JDK:\n"
+	java -version
+	javac -version
+	printf "\n"
+}
+run () {
+	sudo mkdir -p /usr/lib/jvm/$fileName__
+	sudo tar -xvf $fullFileName -C /usr/lib/jvm/$fileName__ --strip-components 1
+	sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/$fileName__/bin/java 1
+	sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/$fileName__/bin/javac 1
+	sudo update-alternatives --set java /usr/lib/jvm/$fileName__/bin/java
+	sudo update-alternatives --set javac /usr/lib/jvm/$fileName__/bin/javac
+	printf "\nCongratulations, Oracle JDK installation completed successfully!\n\n"
+	printf "New JDK Details:\n"
+	java -version
+	javac -version
+	printf "\nHave a nice day.\n"
+}
+welcome
+fullFileName=$1
+yes=$2
+if test -f "$fullFileName"; then
+	if [[ $fullFileName == *"-linux-x64.tar.gz"* ]]; then
+		fileName__=${fullFileName/-linux-x64.tar.gz/} #jdk8
+	elif [[ $fullFileName == *"_linux-x64_bin.tar.gz"* ]]; then
+		fileName__=${fullFileName/_linux-x64_bin.tar.gz/} #jdk12-jdk11
+	fi
+	conf="Do you confirm the value('$fullFileName') you entered? (y/n) :"
+	if [[ $yes == "-y" ]]; then
+		printf "$conf""y\n"
+		run
+	else
+		read -p "$conf" status
+		case $status in
+			y)
+				run
+				;;
+			*)
+				printf "No action taken, good day.\n"
+		esac
+	fi
+else
+	printf "File not found. No action taken, good day.\n"
+fi
