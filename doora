@@ -1,9 +1,5 @@
 #!/bin/bash
 welcome () {
-	if [[ $1 == "--help" ]]; then
-		printf "Usage1: sudo ./doora <jdk-filename.tar.gz>\nUsage2: sudo doora <jdk-filename.tar.gz> -y\n\n"
-		exit
-	fi
 	clear
 	printf "\n***** Oracle JDK Installer | doora *****\n\n"
 	printf "Master: https://github.com/dootec\n"
@@ -49,6 +45,10 @@ if test -f "$fullFileName"; then
 				printf "No action taken, good day.\n"
 		esac
 	fi
+elif [[ $1 == "--help" ]]; then
+	printf "Usage1: sudo ./doora <jdk-filename.tar.gz>\nUsage2: sudo doora <jdk-filename.tar.gz> -y\n\n"
+	exit
 else
 	printf "File not found. No action taken, good day.\n"
+	exit
 fi
