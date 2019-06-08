@@ -45,7 +45,7 @@ if test -f "$fullFileName"; then
 				printf "No action taken, good day.\n"
 		esac
 	fi
-elif [[ $1 == "--help" ]]; then
+elif [[ $1 == "help" ]]; then
 	printf "Usage1: sudo ./doora <jdk-filename.tar.gz>\nUsage2: sudo doora <jdk-filename.tar.gz> -y\n\n"
 	exit
 else
